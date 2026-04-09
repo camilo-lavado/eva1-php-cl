@@ -45,4 +45,70 @@ class UsuariosController
             ]);
         }
     }
+
+    public function eliminarLogico()
+    {
+        header('Content-Type: application/json');
+        $id = $_POST['id'] ?? '';
+
+        $usuariosModel = new Usuarios();
+        if ($usuariosModel->softDelete($id)) {
+            return json_encode(["status" => "success", "message" => "Usuario desactivado"]);
+        }
+        return json_encode(["status" => "error", "message" => "No se pudo desactivar"]);
+    }
+
+
+    public function eliminarFisico()
+    {
+        header('Content-Type: application/json');
+        $id = $_POST['id'] ?? '';
+
+        if (empty($id)) {
+            return json_encode([
+                "status" => "error",
+                "message" => "ID no proporcionado"
+            ]);
+        }
+
+        $usuariosModel = new Usuarios();
+
+        if ($usuariosModel->deleteUser($id)) {
+            return json_encode([
+                "status" => "success",
+                "message" => "Usuario eliminado permanentemente"
+            ]);
+        } else {
+            return json_encode([
+                "status" => "error",
+                "message" => "No se pudo eliminar: El usuario no existe o tiene registros asociados (entrevistas, etc)"
+            ]);
+        }
+    }
+    public function obtenerUsuario()
+    {
+        header('Content-Type: application/json');
+        $id = $_GET['id'] ?? '';
+
+        if (empty($id)) {
+            return json_encode([
+                "status" => "error",
+                "message" => "ID de usuario no proporcionado"
+            ]);
+        }
+
+        $usuariosModel = new Usuarios();
+        $user = $usuariosModel->getUserById($id);
+        if ($user) {
+            return json_encode([
+                "status" => "success",
+                "user" => $user
+            ]);
+        } else {
+            return json_encode([
+                "status" => "error",
+                "message" => "Usuario no encontrado"
+            ]);
+        }
+    }
 }
