@@ -27,10 +27,6 @@ INSERT INTO `Usuarios` (`nombre_usuario`, `password`, `rol`, `entrevistador_id`)
 ('l_aravena', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ENTREVISTADOR', 2),
 ('s_errazuriz', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'ENTREVISTADOR', 3);
 
--- Las contraseñas están hasheadas con bcrypt para mayor seguridad.
--- admin_sistema (Rol: ADMIN)
--- l_aravena (Rol: ENTREVISTADOR)
--- s_errazuriz (Rol: ENTREVISTADOR)
 
 INSERT INTO `Entrevistas` (`cargo_id`, `candidato_id`, `entrevistador_id`, `fecha_hora`, `estado`, `observaciones`) VALUES
 (1, 1, 2, '2026-04-10 10:30:00', 'PROGRAMADA', 'Primera entrevista técnica via Meet'),

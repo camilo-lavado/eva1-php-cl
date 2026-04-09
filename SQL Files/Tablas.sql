@@ -15,7 +15,7 @@ ALTER TABLE
     `Candidatos` ADD UNIQUE `candidatos_email_unique`(`email`);
 CREATE TABLE `Experiencias`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `candidato_id` BIGINT NOT NULL,
+    `candidato_id` BIGINT UNSIGNED NOT NULL,
     `empresa` VARCHAR(255) NOT NULL,
     `cargo_ejercido` VARCHAR(255) NOT NULL,
     `meses_duracion` INT NOT NULL
@@ -29,9 +29,9 @@ CREATE TABLE `Entrevistadores`(
 );
 CREATE TABLE `Entrevistas`(
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `cargo_id` BIGINT NOT NULL,
-    `candidato_id` BIGINT NOT NULL,
-    `entrevistador_id` BIGINT NOT NULL,
+    `cargo_id` BIGINT UNSIGNED NOT NULL,
+    `candidato_id` BIGINT UNSIGNED NOT NULL,
+    `entrevistador_id` BIGINT UNSIGNED NOT NULL,
     `fecha_hora` DATETIME NOT NULL,
     `estado` VARCHAR(255) NOT NULL COMMENT 'PROGRAMADA / REALIZADA / CANCELADA',
     `observaciones` VARCHAR(255) NOT NULL
