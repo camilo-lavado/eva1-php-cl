@@ -1,31 +1,56 @@
 <?php
-$peticion = $_GET['api'] ?? '';
-switch ($peticion) {
-    case 'listar_usuarios':
+header('Content-Type: application/json');
+
+$modelo = $_GET['modelo'] ?? '';
+$accion = $_GET['accion'] ?? '';
+
+switch ($modelo) {
+    case 'usuarios':
         require_once './Controllers/UsuariosController.php';
-        $usuariosController = new UsuariosController();
-        echo $usuariosController->listarUsuarios();
+        $controller = new UsuariosController();
+
+        switch ($accion) {
+            case 'listar':
+                echo $controller->listarUsuarios();
+                break;
+            case 'login':
+                echo $controller->login();
+                break;
+            case 'obtener':
+                echo $controller->obtenerUsuario();
+                break;
+            case 'eliminar_fisico':
+                echo $controller->eliminarFisico();
+                break;
+            case 'eliminar':
+                echo $controller->eliminarLogico();
+                break;
+            default:
+                echo json_encode(['error' => 'Acción de usuario no válida']);
+        }
         break;
-    case 'login':
-        require_once './Controllers/UsuariosController.php';
-        $usuariosController = new UsuariosController();
-        echo $usuariosController->login();
+
+    case 'candidatos':
+        require_once './Controllers/CandidatosController.php';
+        $controller = new CandidatosController();
+        switch ($accion) {
+            case 'listar':
+                echo $controller->listarCandidatos();
+                break;
+        }
         break;
-    case 'obtener_usuario':
-        require_once './Controllers/UsuariosController.php';
-        $usuariosController = new UsuariosController();
-        echo $usuariosController->obtenerUsuario();
+
+    case 'cargos':
+        require_once './Controllers/CargosController.php';
+        $controller = new CargosController();
+        switch ($accion) {
+            case 'listar':
+                echo $controller->listarCargos();
+                break;
+        }
         break;
-    case 'eliminar_usuario_permanente':
-        require_once './Controllers/UsuariosController.php';
-        $usuariosController = new UsuariosController();
-        echo $usuariosController->eliminarFisico();
-        break;
-    case 'eliminar_usuario':
-        require_once './Controllers/UsuariosController.php';
-        $usuariosController = new UsuariosController();
-        echo $usuariosController->eliminarLogico();
-        break;
+
     default:
-        echo json_encode(array('error' => 'Ruta no encontrada'));
+        http_response_code(404);
+        echo json_encode(['error' => 'Modelo no encontrado']);
 }
