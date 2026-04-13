@@ -16,7 +16,7 @@ class Usuarios
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Error al obtener los usuarios: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -57,7 +57,7 @@ class Usuarios
 
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            die("Error al eliminar al usuario: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -70,7 +70,7 @@ class Usuarios
             $stmt->execute();
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            die("Error al desactivar al usuario: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -84,7 +84,7 @@ class Usuarios
 
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Error al obtener el usuario: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -94,14 +94,14 @@ class Usuarios
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $query = "INSERT INTO Usuarios (nombre_usuario, password, rol, entrevistador_id) VALUES (:nombre_usuario, :password, :rol, :entrevistador_id)";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':nombre_usuario', $nombre_usuario);
-            $stmt->bindParam(':password', $hashedPassword);
-            $stmt->bindParam(':rol', $rol);
-            $stmt->bindParam(':entrevistador_id', $entrevistador_id);
+            $stmt->bindValue(':nombre_usuario', $nombre_usuario);
+            $stmt->bindValue(':password', $hashedPassword);
+            $stmt->bindValue(':rol', $rol);
+            $stmt->bindValue(':entrevistador_id', $entrevistador_id, $entrevistador_id === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
             $stmt->execute();
             return $this->db->lastInsertId();
         } catch (PDOException $e) {
-            die("Error al crear el usuario: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -110,14 +110,14 @@ class Usuarios
         try {
             $query = "UPDATE Usuarios SET nombre_usuario = :nombre_usuario, rol = :rol, entrevistador_id = :entrevistador_id WHERE id = :id";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->bindParam(':nombre_usuario', $nombre_usuario);
-            $stmt->bindParam(':rol', $rol);
-            $stmt->bindParam(':entrevistador_id', $entrevistador_id);
+            $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':nombre_usuario', $nombre_usuario);
+            $stmt->bindValue(':rol', $rol);
+            $stmt->bindValue(':entrevistador_id', $entrevistador_id, $entrevistador_id === null ? PDO::PARAM_NULL : PDO::PARAM_INT);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            die("Error al actualizar el usuario: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -136,7 +136,7 @@ class Usuarios
             $stmt->execute();
             return $stmt->fetch() !== false;
         } catch (PDOException $e) {
-            die("Error al verificar el nombre de usuario: " . $e->getMessage());
+            throw $e;
         }
     }
 }

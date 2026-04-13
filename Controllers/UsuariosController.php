@@ -115,47 +115,58 @@ class UsuariosController
     public function crearUsuario()
     {
         header('Content-Type: application/json');
-        $nombre = $_POST['nombre_usuario'] ?? '';
-        $password = $_POST['password'] ?? '';
-        $rol = $_POST['rol'] ?? 'ENTREVISTADOR';
-        $entrevistador_id = $_POST['entrevistador_id'] ?? null;
+        try {
+            $nombre = $_POST['nombre_usuario'] ?? '';
+            $password = $_POST['password'] ?? '';
+            $rol = $_POST['rol'] ?? 'ENTREVISTADOR';
+            $entrevistador_id = $_POST['entrevistador_id'] ?? null;
+            if ($entrevistador_id === "") $entrevistador_id = null;
 
-        if (empty($nombre) || empty($password)) {
-            return json_encode(["status" => "error", "message" => "Nombre de usuario y contraseña son obligatorios"]);
-        }
+            if (empty($nombre) || empty($password)) {
+                return json_encode(["status" => "error", "message" => "Nombre de usuario y contraseña son obligatorios"]);
+            }
 
-        $usuariosModel = new Usuarios();
-        if ($usuariosModel->nombreUsuarioExiste($nombre)) {
-            return json_encode(["status" => "error", "message" => "El nombre de usuario ya está en uso"]);
-        }
+            $usuariosModel = new Usuarios();
+            if ($usuariosModel->nombreUsuarioExiste($nombre)) {
+                return json_encode(["status" => "error", "message" => "El nombre de usuario ya está en uso"]);
+            }
 
-        $nuevoId = $usuariosModel->createUsuario($nombre, $password, $rol, $entrevistador_id);
-        if ($nuevoId) {
-            return json_encode(["status" => "success", "message" => "Usuario creado correctamente", "id" => $nuevoId]);
+            $nuevoId = $usuariosModel->createUsuario($nombre, $password, $rol, $entrevistador_id);
+            if ($nuevoId) {
+                return json_encode(["status" => "success", "message" => "Usuario creado correctamente", "id" => $nuevoId]);
+            }
+            return json_encode(["status" => "error", "message" => "No se pudo crear el usuario"]);
+        } catch (Exception $e) {
+            return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
-        return json_encode(["status" => "error", "message" => "No se pudo crear el usuario"]);
     }
 
     public function actualizarUsuario()
     {
         header('Content-Type: application/json');
-        $id = $_POST['id'] ?? '';
-        $nombre = $_POST['nombre_usuario'] ?? '';
-        $rol = $_POST['rol'] ?? '';
-        $entrevistador_id = $_POST['entrevistador_id'] ?? null;
+        try {
+            $id = $_POST['id'] ?? '';
+            $nombre = $_POST['nombre_usuario'] ?? '';
+            $rol = $_POST['rol'] ?? '';
+            $entrevistador_id = $_POST['entrevistador_id'] ?? null;
 
-        if (empty($id) || empty($nombre) || empty($rol)) {
-            return json_encode(["status" => "error", "message" => "ID, nombre y rol son obligatorios"]);
-        }
+            if ($entrevistador_id === "") $entrevistador_id = null;
 
-        $usuariosModel = new Usuarios();
-        if ($usuariosModel->nombreUsuarioExiste($nombre, $id)) {
-            return json_encode(["status" => "error", "message" => "El nombre de usuario ya está en uso por otro registro"]);
-        }
+            if (empty($id) || empty($nombre) || empty($rol)) {
+                return json_encode(["status" => "error", "message" => "ID, nombre y rol son obligatorios"]);
+            }
 
-        if ($usuariosModel->updateUsuario($id, $nombre, $rol, $entrevistador_id)) {
-            return json_encode(["status" => "success", "message" => "Usuario actualizado correctamente"]);
+            $usuariosModel = new Usuarios();
+            if ($usuariosModel->nombreUsuarioExiste($nombre, $id)) {
+                return json_encode(["status" => "error", "message" => "El nombre de usuario ya está en uso por otro registro"]);
+            }
+
+            if ($usuariosModel->updateUsuario($id, $nombre, $rol, $entrevistador_id)) {
+                return json_encode(["status" => "success", "message" => "Usuario actualizado correctamente"]);
+            }
+            return json_encode(["status" => "error", "message" => "No se pudo actualizar el usuario"]);
+        } catch (Exception $e) {
+            return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
-        return json_encode(["status" => "error", "message" => "No se pudo actualizar el usuario"]);
     }
 }
