@@ -30,7 +30,7 @@ class Cargos
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Error al obtener el cargo: " . $e->getMessage());
+            throw new Exception("Error al obtener el cargo: " . $e->getMessage());
         }
     }
 
@@ -45,7 +45,7 @@ class Cargos
             $stmt->execute();
             return $this->db->lastInsertId();
         } catch (PDOException $e) {
-            die("Error al crear el cargo: " . $e->getMessage());
+            throw new Exception("Error al crear el cargo: " . $e->getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ class Cargos
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            die("Error al actualizar el cargo: " . $e->getMessage());
+            throw new Exception("Error al actualizar el cargo: " . $e->getMessage());
         }
     }
 
@@ -74,7 +74,11 @@ class Cargos
             $stmt->execute();
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            die("Error al eliminar el cargo: " . $e->getMessage());
+            // Detectar error de integridad referencial (FK constraint)
+            if ($e->getCode() == 23000) {
+                throw new Exception("No se puede eliminar: el cargo tiene entrevistas asociadas.");
+            }
+            throw new Exception("Error al eliminar el cargo: " . $e->getMessage());
         }
     }
 }
