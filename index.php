@@ -19,6 +19,12 @@ switch ($modelo) {
             case 'obtener':
                 echo $controller->obtenerUsuario();
                 break;
+            case 'crear':
+                echo $controller->crearUsuario();
+                break;
+            case 'actualizar':
+                echo $controller->actualizarUsuario();
+                break;
             case 'eliminar_fisico':
                 echo $controller->eliminarFisico();
                 break;
