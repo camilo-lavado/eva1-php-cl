@@ -14,37 +14,55 @@ class UsuariosController
     public function login()
     {
         header('Content-Type: application/json');
-        $username = $_POST['username'] ?? '';
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            return json_encode([
+                "status" => "error",
+                "message" => "Método no permitido. Use POST."
+            ]);
+        }
+
+        $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
 
         if (empty($username) || empty($password)) {
+            http_response_code(400);
             return json_encode([
                 "status" => "error",
-                "message" => "Faltan Credenciales"
+                "message" => "Faltan credenciales (usuario o contraseña)"
             ]);
         }
 
-        $usuariosModel = new Usuarios();
-        $user = $usuariosModel->login($username, $password);
+        try {
+            $usuariosModel = new Usuarios();
+            $user = $usuariosModel->login($username, $password);
 
-        if ($user) {
-            $respuesta = [
-                "status" => "success",
-                "user" => [
-                    "id" => $user['id'],
-                    "nombre_usuario" => $user['nombre_usuario'],
-                    "rol" => $user['rol'],
-                    "entrevistador_id" => $user['entrevistador_id']
-                ]
-            ];
-            return json_encode($respuesta);
-        } else {
+            if ($user) {
+                return json_encode([
+                    "status" => "success",
+                    "user" => [
+                        "id" => $user['id'],
+                        "nombre_usuario" => $user['nombre_usuario'],
+                        "rol" => $user['rol'],
+                        "entrevistador_id" => $user['entrevistador_id']
+                    ]
+                ]);
+            } else {
+                http_response_code(401);
+                return json_encode([
+                    "status" => "error",
+                    "message" => "Usuario o contraseña incorrectos"
+                ]);
+            }
+        } catch (Exception $e) {
+            http_response_code(500);
             return json_encode([
                 "status" => "error",
-                "message" => "Usuario o Password Incorrectas"
+                "message" => "Error interno en el servidor"
             ]);
         }
     }
+
 
     public function eliminarLogico()
     {
