@@ -1,0 +1,435 @@
+{
+	"info": {
+		"_postman_id": "76e3d2a1-0f72-4d1a-8c9b-6d5f7e8a9b0c",
+		"name": "Prueba1 - Recruitment API",
+		"description": "API para la gestión de reclutamiento y procesos de entrevista.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Listar Usuarios",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=usuarios&accion=listar"
+					}
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "username", "value": "admin_sistema", "type": "text" },
+								{ "key": "password", "value": "password", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=usuarios&accion=login"
+					}
+				},
+				{
+					"name": "Obtener Usuario",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=usuarios&accion=obtener&id=1"
+					}
+				},
+				{
+					"name": "Crear Usuario",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "nombre_usuario", "value": "j_perez", "type": "text" },
+								{ "key": "password", "value": "testpass123", "type": "text" },
+								{ "key": "rol", "value": "RECLUTADOR", "type": "text" },
+								{ "key": "entrevistador_id", "value": "", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=usuarios&accion=crear"
+					}
+				},
+				{
+					"name": "Actualizar Usuario",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" },
+								{ "key": "nombre_usuario", "value": "admin_edit", "type": "text" },
+								{ "key": "rol", "value": "ADMIN", "type": "text" },
+								{ "key": "entrevistador_id", "value": "", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=usuarios&accion=actualizar"
+					}
+				},
+				{
+					"name": "Eliminar Usuario (Lógico)",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=usuarios&accion=eliminar"
+					}
+				},
+				{
+					"name": "Eliminar Usuario (Físico)",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=usuarios&accion=eliminar_fisico"
+					}
+				}
+			]
+		},
+		{
+			"name": "Candidatos",
+			"item": [
+				{
+					"name": "Listar Candidatos",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=candidatos&accion=listar"
+					}
+				},
+				{
+					"name": "Obtener Candidato",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=candidatos&accion=obtener&id=1"
+					}
+				},
+				{
+					"name": "Crear Candidato",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "nombres", "value": "Javier", "type": "text" },
+								{ "key": "apellidos", "value": "Pavez Muñoz", "type": "text" },
+								{ "key": "email", "value": "javier.munoz@email.cl", "type": "text" },
+								{ "key": "telefono", "value": "+56987554321", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=candidatos&accion=crear"
+					}
+				},
+				{
+					"name": "Actualizar Candidato",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" },
+								{ "key": "nombres", "value": "Javier Editado", "type": "text" },
+								{ "key": "apellidos", "value": "Pavez Muñoz", "type": "text" },
+								{ "key": "email", "value": "javier.nuevo@email.cl", "type": "text" },
+								{ "key": "telefono", "value": "+56987554321", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=candidatos&accion=actualizar"
+					}
+				},
+				{
+					"name": "Eliminar Candidato",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=candidatos&accion=eliminar"
+					}
+				}
+			]
+		},
+		{
+			"name": "Cargos",
+			"item": [
+				{
+					"name": "Listar Cargos",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=cargos&accion=listar"
+					}
+				},
+				{
+					"name": "Obtener Cargo",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=cargos&accion=obtener&id=1"
+					}
+				},
+				{
+					"name": "Crear Cargo",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "titulo", "value": "Desarrollador Fullstack", "type": "text" },
+								{ "key": "departamento", "value": "Tecnología", "type": "text" },
+								{ "key": "estado", "value": "ABIERTO", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=cargos&accion=crear"
+					}
+				},
+				{
+					"name": "Actualizar Cargo",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" },
+								{ "key": "titulo", "value": "Desarrollador Senior", "type": "text" },
+								{ "key": "departamento", "value": "Tecnología", "type": "text" },
+								{ "key": "estado", "value": "CERRADO", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=cargos&accion=actualizar"
+					}
+				},
+				{
+					"name": "Eliminar Cargo",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=cargos&accion=eliminar"
+					}
+				}
+			]
+		},
+		{
+			"name": "Entrevistadores",
+			"item": [
+				{
+					"name": "Listar Entrevistadores",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=entrevistadores&accion=listar"
+					}
+				},
+				{
+					"name": "Obtener Entrevistador",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=entrevistadores&accion=obtener&id=1"
+					}
+				},
+				{
+					"name": "Crear Entrevistador",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "nombres", "value": "Loreto", "type": "text" },
+								{ "key": "apellidos", "value": "Aravena", "type": "text" },
+								{ "key": "email", "value": "laravena@empresa.cl", "type": "text" },
+								{ "key": "especialidad", "value": "Tecnología", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=entrevistadores&accion=crear"
+					}
+				},
+				{
+					"name": "Actualizar Entrevistador",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" },
+								{ "key": "nombres", "value": "Loreto Aravena", "type": "text" },
+								{ "key": "apellidos", "value": "Editada", "type": "text" },
+								{ "key": "email", "value": "laravena_new@empresa.cl", "type": "text" },
+								{ "key": "especialidad", "value": "HR Tech", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=entrevistadores&accion=actualizar"
+					}
+				},
+				{
+					"name": "Eliminar Entrevistador",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=entrevistadores&accion=eliminar"
+					}
+				}
+			]
+		},
+		{
+			"name": "Entrevistas",
+			"item": [
+				{
+					"name": "Listar Entrevistas",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=entrevistas&accion=listar"
+					}
+				},
+				{
+					"name": "Obtener Entrevista",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=entrevistas&accion=obtener&id=1"
+					}
+				},
+				{
+					"name": "Crear Entrevista",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "cargo_id", "value": "1", "type": "text" },
+								{ "key": "candidato_id", "value": "1", "type": "text" },
+								{ "key": "entrevistador_id", "value": "2", "type": "text" },
+								{ "key": "fecha_hora", "value": "2026-04-10 10:30:00", "type": "text" },
+								{ "key": "estado", "value": "PROGRAMADA", "type": "text" },
+								{ "key": "observaciones", "value": "Primera entrevista técnica via Meet", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=entrevistas&accion=crear"
+					}
+				},
+				{
+					"name": "Actualizar Entrevista",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" },
+								{ "key": "cargo_id", "value": "1", "type": "text" },
+								{ "key": "candidato_id", "value": "1", "type": "text" },
+								{ "key": "entrevistador_id", "value": "2", "type": "text" },
+								{ "key": "fecha_hora", "value": "2026-04-10 11:30:00", "type": "text" },
+								{ "key": "estado", "value": "REALIZADA", "type": "text" },
+								{ "key": "observaciones", "value": "Entrevista completada satisfactoriamente", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=entrevistas&accion=actualizar"
+					}
+				},
+				{
+					"name": "Eliminar Entrevista",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=entrevistas&accion=eliminar"
+					}
+				}
+			]
+		},
+		{
+			"name": "Experiencias",
+			"item": [
+				{
+					"name": "Listar Experiencias",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=experiencias&accion=listar"
+					}
+				},
+				{
+					"name": "Obtener Experiencia",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/index.php?modelo=experiencias&accion=obtener&id=1"
+					}
+				},
+				{
+					"name": "Crear Experiencia",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "candidato_id", "value": "1", "type": "text" },
+								{ "key": "empresa", "value": "Banco Estado", "type": "text" },
+								{ "key": "cargo_ejercido", "value": "Desarrollador Junior", "type": "text" },
+								{ "key": "meses_duracion", "value": "24", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=experiencias&accion=crear"
+					}
+				},
+				{
+					"name": "Actualizar Experiencia",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" },
+								{ "key": "candidato_id", "value": "1", "type": "text" },
+								{ "key": "empresa", "value": "Banco Estado Editado", "type": "text" },
+								{ "key": "cargo_ejercido", "value": "Desarrollador Senior", "type": "text" },
+								{ "key": "meses_duracion", "value": "36", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=experiencias&accion=actualizar"
+					}
+				},
+				{
+					"name": "Eliminar Experiencia",
+					"request": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "id", "value": "1", "type": "text" }
+							]
+						},
+						"url": "{{baseUrl}}/index.php?modelo=experiencias&accion=eliminar"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost/prueba1",
+			"type": "string"
+		}
+	]
+}
