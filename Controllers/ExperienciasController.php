@@ -11,6 +11,7 @@ class ExperienciasController
             $experienciasList = $experiencias->getExperiences();
             return json_encode($experienciasList);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -21,6 +22,7 @@ class ExperienciasController
         try {
             $id = $_GET['id'] ?? '';
             if (empty($id)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "ID no proporcionado"]);
             }
             $experiencias = new Experiencias();
@@ -28,8 +30,10 @@ class ExperienciasController
             if ($experiencia) {
                 return json_encode(["status" => "success", "data" => $experiencia]);
             }
+            http_response_code(404);
             return json_encode(["status" => "error", "message" => "Experiencia no encontrada"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -46,16 +50,20 @@ class ExperienciasController
             if ($candidato_id === "") $candidato_id = null;
 
             if (empty($candidato_id) || empty($empresa) || empty($cargo_ejercido)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "Faltan campos obligatorios"]);
             }
 
             $experiencias = new Experiencias();
             $id = $experiencias->createExperience($candidato_id, $empresa, $cargo_ejercido, $meses_duracion);
             if ($id) {
+                http_response_code(201);
                 return json_encode(["status" => "success", "message" => "Experiencia creada", "id" => $id]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo crear la experiencia"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -73,6 +81,7 @@ class ExperienciasController
             if ($candidato_id === "") $candidato_id = null;
 
             if (empty($id) || empty($candidato_id) || empty($empresa) || empty($cargo_ejercido)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "Todos los campos obligatorios deben estar presentes"]);
             }
 
@@ -80,8 +89,10 @@ class ExperienciasController
             if ($experiencias->updateExperience($id, $candidato_id, $empresa, $cargo_ejercido, $meses_duracion)) {
                 return json_encode(["status" => "success", "message" => "Experiencia actualizada"]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo actualizar"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -92,14 +103,17 @@ class ExperienciasController
         try {
             $id = $_POST['id'] ?? '';
             if (empty($id)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "ID no proporcionado"]);
             }
             $experiencias = new Experiencias();
             if ($experiencias->deleteExperience($id)) {
                 return json_encode(["status" => "success", "message" => "Experiencia eliminada"]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo eliminar"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }

@@ -30,7 +30,7 @@ class Candidatos
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            die("Error al obtener el candidato: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -46,7 +46,7 @@ class Candidatos
             $stmt->execute();
             return $this->db->lastInsertId();
         } catch (PDOException $e) {
-            die("Error al crear el candidato: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -63,7 +63,7 @@ class Candidatos
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            die("Error al actualizar el candidato: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -76,7 +76,7 @@ class Candidatos
             $stmt->execute();
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            die("Error al eliminar el candidato: " . $e->getMessage());
+            throw $e;
         }
     }
 
@@ -95,7 +95,7 @@ class Candidatos
             $stmt->execute();
             return $stmt->fetch() !== false;
         } catch (PDOException $e) {
-            die("Error al verificar el email: " . $e->getMessage());
+            throw $e;
         }
     }
 }

@@ -11,6 +11,7 @@ class EntrevistasController
             $entrevistasList = $entrevistas->getInterviews();
             return json_encode($entrevistasList);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -21,6 +22,7 @@ class EntrevistasController
         try {
             $id = $_GET['id'] ?? '';
             if (empty($id)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "ID no proporcionado"]);
             }
             $entrevistas = new Entrevistas();
@@ -28,8 +30,10 @@ class EntrevistasController
             if ($entrevista) {
                 return json_encode(["status" => "success", "data" => $entrevista]);
             }
+            http_response_code(404);
             return json_encode(["status" => "error", "message" => "Entrevista no encontrada"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -49,16 +53,20 @@ class EntrevistasController
             if ($entrevistador_id === "") $entrevistador_id = null;
 
             if (empty($cargo_id) || empty($candidato_id) || empty($entrevistador_id) || empty($fecha_hora)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "Faltan campos obligatorios"]);
             }
 
             $entrevistas = new Entrevistas();
             $id = $entrevistas->createInterview($cargo_id, $candidato_id, $entrevistador_id, $fecha_hora, $estado, $observaciones);
             if ($id) {
+                http_response_code(201);
                 return json_encode(["status" => "success", "message" => "Entrevista creada", "id" => $id]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo crear la entrevista"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -80,6 +88,7 @@ class EntrevistasController
             if ($entrevistador_id === "") $entrevistador_id = null;
 
             if (empty($id) || empty($cargo_id) || empty($candidato_id) || empty($entrevistador_id) || empty($fecha_hora) || empty($estado)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "Todos los campos son obligatorios"]);
             }
 
@@ -87,8 +96,10 @@ class EntrevistasController
             if ($entrevistas->updateInterview($id, $cargo_id, $candidato_id, $entrevistador_id, $fecha_hora, $estado, $observaciones)) {
                 return json_encode(["status" => "success", "message" => "Entrevista actualizada"]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo actualizar"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -99,14 +110,17 @@ class EntrevistasController
         try {
             $id = $_POST['id'] ?? '';
             if (empty($id)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "ID no proporcionado"]);
             }
             $entrevistas = new Entrevistas();
             if ($entrevistas->deleteInterview($id)) {
                 return json_encode(["status" => "success", "message" => "Entrevista eliminada"]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo eliminar"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }

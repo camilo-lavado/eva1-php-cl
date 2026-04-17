@@ -18,6 +18,7 @@ class UsuariosController
         $password = $_POST['password'] ?? '';
 
         if (empty($username) || empty($password)) {
+            http_response_code(400);
             return json_encode([
                 "status" => "error",
                 "message" => "Faltan Credenciales"
@@ -39,6 +40,7 @@ class UsuariosController
             ];
             return json_encode($respuesta);
         } else {
+            http_response_code(401);
             return json_encode([
                 "status" => "error",
                 "message" => "Usuario o Password Incorrectas"
@@ -55,6 +57,7 @@ class UsuariosController
         if ($usuariosModel->softDelete($id)) {
             return json_encode(["status" => "success", "message" => "Usuario desactivado"]);
         }
+        http_response_code(400);
         return json_encode(["status" => "error", "message" => "No se pudo desactivar"]);
     }
 
@@ -65,6 +68,7 @@ class UsuariosController
         $id = $_POST['id'] ?? '';
 
         if (empty($id)) {
+            http_response_code(400);
             return json_encode([
                 "status" => "error",
                 "message" => "ID no proporcionado"
@@ -79,6 +83,7 @@ class UsuariosController
                 "message" => "Usuario eliminado permanentemente"
             ]);
         } else {
+            http_response_code(400);
             return json_encode([
                 "status" => "error",
                 "message" => "No se pudo eliminar: El usuario no existe o tiene registros asociados (entrevistas, etc)"
@@ -91,6 +96,7 @@ class UsuariosController
         $id = $_GET['id'] ?? '';
 
         if (empty($id)) {
+            http_response_code(400);
             return json_encode([
                 "status" => "error",
                 "message" => "ID de usuario no proporcionado"
@@ -105,6 +111,7 @@ class UsuariosController
                 "user" => $user
             ]);
         } else {
+            http_response_code(404);
             return json_encode([
                 "status" => "error",
                 "message" => "Usuario no encontrado"
@@ -123,20 +130,25 @@ class UsuariosController
             if ($entrevistador_id === "") $entrevistador_id = null;
 
             if (empty($nombre) || empty($password)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "Nombre de usuario y contraseña son obligatorios"]);
             }
 
             $usuariosModel = new Usuarios();
             if ($usuariosModel->nombreUsuarioExiste($nombre)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "El nombre de usuario ya está en uso"]);
             }
 
             $nuevoId = $usuariosModel->createUsuario($nombre, $password, $rol, $entrevistador_id);
             if ($nuevoId) {
+                http_response_code(201);
                 return json_encode(["status" => "success", "message" => "Usuario creado correctamente", "id" => $nuevoId]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo crear el usuario"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }
@@ -153,19 +165,23 @@ class UsuariosController
             if ($entrevistador_id === "") $entrevistador_id = null;
 
             if (empty($id) || empty($nombre) || empty($rol)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "ID, nombre y rol son obligatorios"]);
             }
 
             $usuariosModel = new Usuarios();
             if ($usuariosModel->nombreUsuarioExiste($nombre, $id)) {
+                http_response_code(400);
                 return json_encode(["status" => "error", "message" => "El nombre de usuario ya está en uso por otro registro"]);
             }
 
             if ($usuariosModel->updateUsuario($id, $nombre, $rol, $entrevistador_id)) {
                 return json_encode(["status" => "success", "message" => "Usuario actualizado correctamente"]);
             }
+            http_response_code(400);
             return json_encode(["status" => "error", "message" => "No se pudo actualizar el usuario"]);
         } catch (Exception $e) {
+            http_response_code(500);
             return json_encode(["status" => "error", "message" => "Error: " . $e->getMessage()]);
         }
     }

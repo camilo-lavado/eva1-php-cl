@@ -74,7 +74,7 @@ class Cargos
             $stmt->execute();
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
-            // Detectar error de integridad referencial (FK constraint)
+            // Tenía un problema con la eliminación de cargos, ya que tenía entrevistas asociadas.
             if ($e->getCode() == 23000) {
                 throw new Exception("No se puede eliminar: el cargo tiene entrevistas asociadas.");
             }
